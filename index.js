@@ -7,8 +7,8 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 // middleware
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.6ze9kj8.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -38,11 +38,16 @@ async function run() {
       } = req;
       const query = { _id: new ObjectId(id) };
       const result = await jobCollection.findOne(query);
-      res.send(result)
+      res.send(result);
     });
 
     app.get("/jobs/m/:email", async (req, res) => {
-      const { body: email } = req;
+      const {
+        params: { email },
+      } = req;
+      const query = { "buyer.email": email };
+      const result = await jobCollection.find(query).toArray();
+      res.send(result);
     });
 
     app.post("/jobs", async (req, res) => {
