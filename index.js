@@ -73,6 +73,15 @@ async function run() {
       res.send(result);
     });
 
+    app.delete("/jobs/:id", async (req, res) => {
+      const {
+        params: { id },
+      } = req;
+      const query = { _id: new ObjectId(id) };
+      const result = await jobCollection.deleteOne(query);
+      res.send(result);
+    });
+
     // bids related api
     app.get("/bids", async (req, res) => {});
 
