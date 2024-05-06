@@ -56,6 +56,23 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/jobs/:id", async (req, res) => {
+      const {
+        body: updatedJob,
+        params: { id },
+      } = req;
+
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          ...updatedJob,
+        },
+      };
+      const result = await jobCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
+    });
+
     // bids related api
     app.get("/bids", async (req, res) => {});
 
