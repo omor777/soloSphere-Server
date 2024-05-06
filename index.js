@@ -89,7 +89,11 @@ async function run() {
       const { body: email } = req;
     });
 
-    app.post("/bids", async (req, res) => {});
+    app.post("/bids", async (req, res) => {
+      const { body: bidJob } = req;
+      const result = await bidCollection.insertOne(bidJob);
+      res.send(result);
+    });
 
     app.patch("/bids/:id", async (req, res) => {
       const {
