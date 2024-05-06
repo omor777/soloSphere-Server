@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -36,6 +36,9 @@ async function run() {
       const {
         params: { id },
       } = req;
+      const query = { _id: new ObjectId(id) };
+      const result = await jobCollection.findOne(query);
+      res.send(result)
     });
 
     app.get("/jobs/m/:email", async (req, res) => {
