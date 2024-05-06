@@ -23,40 +23,42 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    const jobCollection = client.db('marketPlaceDB').collection('jobs')
-    const bidCollection = client.db('marketPlaceDB').collection('bids')
+    const jobCollection = client.db("marketPlaceDB").collection("jobs");
+    const bidCollection = client.db("marketPlaceDB").collection("bids");
 
     //jobs related api
-    app.get('/jobs',async(req,res)=>{
+    app.get("/jobs", async (req, res) => {});
 
-    })
+    app.get("/jobs/s/:id", async (req, res) => {
+      const {
+        params: { id },
+      } = req;
+    });
 
-    app.get('/jobs/s/:id',async(req,res)=>{
-        const {params:{id}} = req;
-    })
+    app.get("/jobs/m/:email", async (req, res) => {
+      const { body: email } = req;
+    });
 
-    app.get('/jobs/m/:email',async(req,res)=>{
-        const {body:email} = req;
-    })
-
-    app.post('/jobs',async(req,res)=>{
-
-    })
+    app.post("/jobs", async (req, res) => {
+      const { body: job } = req;
+      const result = await jobCollection.insertOne(job);
+      res.send(result);
+    });
 
     // bids related api
-    app.get('/bids',async(req,res)=>{})
+    app.get("/bids", async (req, res) => {});
 
-    app.get('/bids/:email',async(req,res)=>{
-        const {body:email} = req;
-    })
+    app.get("/bids/:email", async (req, res) => {
+      const { body: email } = req;
+    });
 
-    app.post('/bids',async(req,res)=>{
+    app.post("/bids", async (req, res) => {});
 
-    })
-
-    app.patch('/bids/:id',async(req,res)=>{
-        const {params:{id}} = req;
-    })
+    app.patch("/bids/:id", async (req, res) => {
+      const {
+        params: { id },
+      } = req;
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
